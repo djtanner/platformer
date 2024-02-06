@@ -1,14 +1,19 @@
 package main;
 
 import inputs.KeyboardInputs;
+import inputs.MouseInputs;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
+   private MouseInputs mouseInputs;
 
    public GamePanel() {
+      mouseInputs = new MouseInputs();
       addKeyListener(new KeyboardInputs());
+      addMouseListener(mouseInputs);
+      addMouseMotionListener(mouseInputs);
 
    }
 
