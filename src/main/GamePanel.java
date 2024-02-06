@@ -1,26 +1,15 @@
 package main;
 
+import inputs.KeyboardInputs;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel {
 
    public GamePanel() {
-      addKeyListener(new KeyListener() {
-         public void keyTyped(KeyEvent e) {
-            
-         }
+      addKeyListener(new KeyboardInputs());
 
-         public void keyPressed(KeyEvent e) {
-
-         }
-
-         public void keyReleased(KeyEvent e) {
-
-         }
-      });
    }
 
    public void paintComponent(Graphics g) {
