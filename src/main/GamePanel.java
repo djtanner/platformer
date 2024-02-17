@@ -8,11 +8,11 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
    private MouseInputs mouseInputs;
-   private int xDelta;
-   private int yDelta;
+   private int xDelta = 100;
+   private int yDelta = 100;
 
    public GamePanel() {
-      mouseInputs = new MouseInputs();
+      mouseInputs = new MouseInputs(this);
       addKeyListener(new KeyboardInputs(this));
       addMouseListener(mouseInputs);
       addMouseMotionListener(mouseInputs);
@@ -31,12 +31,18 @@ public class GamePanel extends JPanel {
       repaint();
    }
 
+   public void setRectPosition(int x, int y) {
+      this.xDelta = x;
+      this.yDelta = y;
+      repaint();
+   }
+
    public void paintComponent(Graphics g) {
       //super.paintComponent(g);
 
       Graphics2D g2 = (Graphics2D) g;
       g2.setColor(Color.BLUE);
-      g2.fillRect(100 + xDelta, 100 + yDelta, 200, 50);
+      g2.fillRect(xDelta, yDelta, 200, 50);
 
    }
 
