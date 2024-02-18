@@ -11,8 +11,8 @@ public class GamePanel extends JPanel {
    private float xDelta = 100;
    private float yDelta = 100;
 
-   private float xDir = .01f;
-   private float yDir = .01f;
+   private float xDir = 1f;
+   private float yDir = 1f;
    private int frames;
    private long lastCheck = 0;
 
@@ -61,7 +61,6 @@ public class GamePanel extends JPanel {
       Graphics2D g2 = (Graphics2D) g;
       g2.setColor(color);
       g2.fillRect((int) xDelta, (int) yDelta, 200, 50);
-      repaint();
 
 
    }
@@ -82,8 +81,8 @@ public class GamePanel extends JPanel {
 
    private Color getRandomColor() {
       int r = (int) (Math.random() * 255);
-      int b = (int) (Math.random() * 255);
       int g = (int) (Math.random() * 255);
+      int b = (int) (Math.random() * 255);
 
 
       return new Color(r, g, b);
