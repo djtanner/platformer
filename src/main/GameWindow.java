@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class GameWindow {
    private JFrame jframe;
-   private final int WIDTH = 400;
-   private final int HEIGHT = 400;
+   public static final int WIDTH = 400;
+   public static final int HEIGHT = 400;
 
    public GameWindow(GamePanel gamePanel) {
       jframe = new JFrame();
