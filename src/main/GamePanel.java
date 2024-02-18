@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
    private MouseInputs mouseInputs;
    private float xDelta;
    private float yDelta;
-   private BufferedImage img;
+   private BufferedImage img, subImg;
 
 
    public GamePanel() {
@@ -59,12 +59,18 @@ public class GamePanel extends JPanel {
 
    }
 
+   public void setRectPos(int x, int y) {
+      this.xDelta = x;
+      this.yDelta = y;
+   }
+
    public void paintComponent(Graphics g) {
       //super.paintComponent(g);
 
       Graphics2D g2 = (Graphics2D) g;
 
-      g2.drawImage(img, 0, 0, null);
+      subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+      g2.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
 
 
    }
