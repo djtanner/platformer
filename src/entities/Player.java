@@ -22,8 +22,8 @@ public class Player extends Entity {
    private boolean left, right, up, down;
    private float playerSpeed = 2.0f;
 
-   public Player(float x, float y) {
-      super(x, y);
+   public Player(float x, float y, int width, int height) {
+      super(x, y, width, height);
       loadAnimations();
    }
 
@@ -38,7 +38,7 @@ public class Player extends Entity {
 
       Graphics2D g2 = (Graphics2D) g;
 
-      g2.drawImage(animations[playerAction][animationIndex], (int) x, (int) y, 128, 80, null);
+      g2.drawImage(animations[playerAction][animationIndex], (int) x, (int) y, width, height, null);
 
    }
 
