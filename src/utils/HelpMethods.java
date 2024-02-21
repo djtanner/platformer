@@ -4,8 +4,8 @@ import main.Game;
 
 public class HelpMethods {
 
-   //checks if position overlaps a tile
-   public static boolean canMoveHere(float x, float y, int width, int height, int[][] levelData) {
+   //checks if position of hitbox overlaps a tile
+   public static boolean canMoveHere(float x, float y, float width, float height, int[][] levelData) {
 
       //hitbox overlap with top left and bottom right
       if (!isSolid(x, y, levelData)) {
