@@ -29,6 +29,7 @@ public class Player extends Entity {
 
    public void update() {
       updatePos();
+      updateHitbox();
       updateAnimationTick();
       setAnimation();
 
@@ -39,7 +40,7 @@ public class Player extends Entity {
       Graphics2D g2 = (Graphics2D) g;
 
       g2.drawImage(animations[playerAction][animationIndex], (int) x, (int) y, width, height, null);
-
+      drawHitbox(g2);
    }
 
 
