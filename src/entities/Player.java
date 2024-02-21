@@ -9,6 +9,7 @@ import static utils.Constants.PlayerConstants.ATTACK_1;
 import static utils.Constants.PlayerConstants.IDLE;
 import static utils.Constants.PlayerConstants.RUNNING;
 import static utils.Constants.PlayerConstants.getSpriteAmounts;
+import static utils.HelpMethods.canMoveHere;
 
 public class Player extends Entity {
    private BufferedImage[][] animations;
@@ -21,6 +22,7 @@ public class Player extends Entity {
    private boolean attacking = false;
    private boolean left, right, up, down;
    private float playerSpeed = 2.0f;
+   private int[][] levelData;
 
    public Player(float x, float y, int width, int height) {
       super(x, y, width, height);
@@ -43,6 +45,9 @@ public class Player extends Entity {
       drawHitbox(g2);
    }
 
+   public void loadLevelData(int[][] levelData) {
+      this.levelData = levelData;
+   }
 
    private void updateAnimationTick() {
       animationTick++;
@@ -87,22 +92,36 @@ public class Player extends Entity {
    }
 
    private void updatePos() {
+      if (!left && !right && !up && !down) {
+         return;
+      }
+
+      float xSpeed = 0;
+      float ySpeed = 0;
+
 
       moving = false;
       if (left && !right) {
-         x -= playerSpeed;
-         moving = true;
+         xSpeed = -playerSpeed;
+
       } else if (right && !left) {
-         x += playerSpeed;
-         moving = true;
+         xSpeed = playerSpeed;
+
       }
       if (up && !down) {
-         y -= playerSpeed;
-         moving = true;
+         ySpeed = -playerSpeed;
+
       } else if (down && !up) {
-         y += playerSpeed;
+         ySpeed = playerSpeed;
+
+      }
+
+      if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
+         this.x += xSpeed;
+         this.y += ySpeed;
          moving = true;
       }
+
    }
 
 

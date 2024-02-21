@@ -35,7 +35,7 @@ public class LevelManager {
       for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
          for (int i = 0; i < Game.TILES_IN_WIDTH; i++) {
             int index = levelOne.getSpriteIndex(i, j);
-            
+
             g.drawImage(levelSprite[index], i * Game.TILES_SIZE, j * Game.TILES_SIZE, Game.TILES_SIZE, Game.TILES_SIZE, null);
          }
       }
@@ -43,5 +43,9 @@ public class LevelManager {
 
    public void update() {
 
+   }
+
+   public Level getCurrentLevel() {
+      return levelOne;
    }
 }
