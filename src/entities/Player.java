@@ -12,6 +12,8 @@ import static utils.Constants.PlayerConstants.RUNNING;
 import static utils.Constants.PlayerConstants.getSpriteAmounts;
 import static utils.HelpMethods.GetEntityXPosNextToWall;
 import static utils.HelpMethods.canMoveHere;
+import static utils.HelpMethods.getEntityYPosUnderRoofOrAboveFloor;
+import static utils.HelpMethods.isEntityOnFloor;
 
 public class Player extends Entity {
    private BufferedImage[][] animations;
@@ -104,6 +106,11 @@ public class Player extends Entity {
    }
 
    private void updatePos() {
+      moving = false;
+
+      if (jump) {
+         jump();
+      }
       if (!left && !right && !inAir) {
          return;
       }
@@ -115,27 +122,56 @@ public class Player extends Entity {
       if (left) {
          xSpeed -= playerSpeed;
 
-      } else if (right) {
+      }
+
+      if (right) {
          xSpeed += playerSpeed;
 
       }
 
+      if (!inAir) {
+         if (!isEntityOnFloor(hitBox, levelData)) {
+            inAir = true;
+         }
+      }
+
 
       if (inAir) {
-
+         if (canMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
+            hitBox.y += airSpeed;
+            airSpeed += gravity;
+            updateXPos(xSpeed);
+         } else {
+            hitBox.y = getEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
+            if (airSpeed > 0) {
+               resetInAir();
+            } else {
+               //hit the roof
+               airSpeed = fallSpeedAfterCollision;
+            }
+            updateXPos(xSpeed);
+         }
       } else {
          updateXPos(xSpeed);
       }
+      moving = true;
 
-/**
- if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, levelData)) {
- hitBox.x += xSpeed;
- hitBox.y += ySpeed;
- moving = true;
-
- }*/
    }
 
+
+   private void jump() {
+      if (inAir) {
+         return;
+      }
+
+      inAir = true;
+      airSpeed = jumpSpeed;
+   }
+
+   private void resetInAir() {
+      inAir = false;
+      airSpeed = 0;
+   }
 
    private void updateXPos(float xSpeed) {
       if (canMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData)) {
@@ -203,6 +239,10 @@ public class Player extends Entity {
 
    public void setDown(boolean down) {
       this.down = down;
+   }
+
+   public void setJump(boolean jump) {
+      this.jump = jump;
    }
 
 }
