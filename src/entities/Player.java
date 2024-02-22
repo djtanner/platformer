@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.ATTACK_1;
+import static utils.Constants.PlayerConstants.FALLING;
 import static utils.Constants.PlayerConstants.IDLE;
+import static utils.Constants.PlayerConstants.JUMPING;
 import static utils.Constants.PlayerConstants.RUNNING;
 import static utils.Constants.PlayerConstants.getSpriteAmounts;
 import static utils.HelpMethods.GetEntityXPosNextToWall;
@@ -41,7 +43,7 @@ public class Player extends Entity {
    public Player(float x, float y, int width, int height) {
       super(x, y, width, height);
       loadAnimations();
-      initHitbox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
+      initHitbox(x, y, 20 * Game.SCALE, 28 * Game.SCALE); //height of hitbox
    }
 
    public void update() {
@@ -61,6 +63,9 @@ public class Player extends Entity {
 
    public void loadLevelData(int[][] levelData) {
       this.levelData = levelData;
+      if (!isEntityOnFloor(hitBox, levelData)) {
+         inAir = true;
+      }
    }
 
    private void updateAnimationTick() {
@@ -90,6 +95,14 @@ public class Player extends Entity {
          playerAction = IDLE;
       }
 
+      if (inAir) {
+         if (airSpeed < 0) {
+            playerAction = JUMPING;
+         } else {
+            playerAction = FALLING;
+         }
+      }
+
       if (attacking) {
          playerAction = ATTACK_1;
       }
@@ -108,7 +121,7 @@ public class Player extends Entity {
    private void updatePos() {
       moving = false;
 
-      if (jump) {
+      if (jump && !inAir) {
          jump();
       }
       if (!left && !right && !inAir) {

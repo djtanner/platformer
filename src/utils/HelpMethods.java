@@ -84,6 +84,7 @@ public class HelpMethods {
       //check the pixel below bottom left and bottom rt corners of hitBox
       if (!isSolid(hitBox.x, hitBox.y + hitBox.height + 1, levelData)) {
          if (!isSolid(hitBox.x + hitBox.width, hitBox.y + hitBox.height + 1, levelData)) {
+      
             return false;
          }
       }
