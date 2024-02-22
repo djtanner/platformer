@@ -10,6 +10,7 @@ import static utils.Constants.PlayerConstants.ATTACK_1;
 import static utils.Constants.PlayerConstants.IDLE;
 import static utils.Constants.PlayerConstants.RUNNING;
 import static utils.Constants.PlayerConstants.getSpriteAmounts;
+import static utils.HelpMethods.GetEntityXPosNextToWall;
 import static utils.HelpMethods.canMoveHere;
 
 public class Player extends Entity {
@@ -21,11 +22,18 @@ public class Player extends Entity {
    private int playerDir = -1;
    private boolean moving = false;
    private boolean attacking = false;
-   private boolean left, right, up, down;
+   private boolean left, right, up, down, jump;
    private float playerSpeed = 2.0f;
    private int[][] levelData;
    private float xDrawOffset = 21 * Game.SCALE;
    private float yDrawOffset = 4 * Game.SCALE;
+
+   //jumping and gravity
+   private float airSpeed = 0f;
+   private float gravity = 0.04f * Game.SCALE;
+   private float jumpSpeed = -2.25f * Game.SCALE;
+   private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+   private boolean inAir = false;
 
 
    public Player(float x, float y, int width, int height) {
@@ -96,43 +104,47 @@ public class Player extends Entity {
    }
 
    private void updatePos() {
-      if (!left && !right && !up && !down) {
+      if (!left && !right && !inAir) {
          return;
       }
 
       float xSpeed = 0;
-      float ySpeed = 0;
 
 
       moving = false;
-      if (left && !right) {
-         xSpeed = -playerSpeed;
+      if (left) {
+         xSpeed -= playerSpeed;
 
-      } else if (right && !left) {
-         xSpeed = playerSpeed;
-
-      }
-      if (up && !down) {
-         ySpeed = -playerSpeed;
-
-      } else if (down && !up) {
-         ySpeed = playerSpeed;
+      } else if (right) {
+         xSpeed += playerSpeed;
 
       }
 
-      /**if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
-       this.x += xSpeed;
-       this.y += ySpeed;
-       moving = true;
-       }*/
 
-      if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, levelData)) {
-         hitBox.x += xSpeed;
-         hitBox.y += ySpeed;
-         moving = true;
+      if (inAir) {
+
+      } else {
+         updateXPos(xSpeed);
       }
+
+/**
+ if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, levelData)) {
+ hitBox.x += xSpeed;
+ hitBox.y += ySpeed;
+ moving = true;
+
+ }*/
    }
 
+
+   private void updateXPos(float xSpeed) {
+      if (canMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData)) {
+         hitBox.x += xSpeed;
+      } else {
+         //move player next to wall
+         hitBox.x = GetEntityXPosNextToWall(hitBox, xSpeed);
+      }
+   }
 
    private void loadAnimations() {
 

@@ -2,6 +2,8 @@ package utils;
 
 import main.Game;
 
+import java.awt.geom.Rectangle2D;
+
 public class HelpMethods {
 
    //checks if position of hitbox overlaps a tile
@@ -21,6 +23,20 @@ public class HelpMethods {
       }
       return false;
 
+   }
+
+   public static float GetEntityXPosNextToWall(Rectangle2D.Float hitBox, float xSpeed) {
+      int currentTile = (int) (hitBox.x / Game.TILES_SIZE);
+      //check if colliding to the left or right
+      if (xSpeed > 0) {
+         //Right
+         int tileXPos = currentTile * Game.TILES_SIZE;
+         int xOffset = (int) (Game.TILES_SIZE - hitBox.width);
+         return tileXPos + xOffset - 1;
+      } else {
+         //Left
+         return currentTile * Game.TILES_SIZE;
+      }
    }
 
    private static boolean isSolid(float x, float y, int[][] levelData) {
