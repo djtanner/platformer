@@ -179,6 +179,7 @@ public class Player extends Entity {
 
       inAir = true;
       airSpeed = jumpSpeed;
+      jump = false;
    }
 
    private void resetInAir() {
@@ -256,6 +257,7 @@ public class Player extends Entity {
 
    public void setJump(boolean jump) {
       this.jump = jump;
+
    }
 
 }

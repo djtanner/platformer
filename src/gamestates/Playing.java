@@ -13,6 +13,7 @@ import static main.Game.SCALE;
 public class Playing extends State implements StateMethods {
    private Player player;
    private LevelManager levelManager;
+   private boolean didJump = false;
 
    public Playing(Game game) {
       super(game);
@@ -72,7 +73,11 @@ public class Playing extends State implements StateMethods {
             player.setRight(true);
             break;
          case KeyEvent.VK_SPACE:
-            player.setJump(true);
+            if (!didJump) {
+               player.setJump(true);
+               didJump = true;
+            }
+            
             break;
          case KeyEvent.VK_BACK_SPACE:
             Gamestate.state = Gamestate.MENU;
@@ -84,6 +89,7 @@ public class Playing extends State implements StateMethods {
       switch (e.getKeyCode()) {
          case KeyEvent.VK_SPACE:
             player.setJump(false);
+            didJump = false;
             break;
 
          case KeyEvent.VK_A:
