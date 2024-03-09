@@ -50,7 +50,7 @@ public class Game implements Runnable {
    }
 
    public void update() {
-      
+
       switch (Gamestate.state) {
          case MENU:
             menu.update();
@@ -58,8 +58,15 @@ public class Game implements Runnable {
          case PLAYING:
             playing.update();
             break;
-         default:
+         case OPTIONS:
+            playing.update();
             break;
+         case QUIT:
+         default:
+            System.exit(0);
+            break;
+
+
       }
 
    }
@@ -140,5 +147,6 @@ public class Game implements Runnable {
    public Playing getPlaying() {
       return playing;
    }
+
 
 }
