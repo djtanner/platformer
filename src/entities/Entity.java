@@ -15,10 +15,10 @@ public abstract class Entity {
       this.y = y;
       this.width = width;
       this.height = height;
-      
+
    }
 
-   protected void initHitbox(float x, float y, float width, float height) {
+   protected void initHitbox(float x, float y, int width, int height) {
       hitBox = new Rectangle2D.Float(x, y, width, height);
    }
 
