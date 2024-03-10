@@ -79,6 +79,11 @@ public class Playing extends State implements StateMethods {
 
    }
 
+   public void mouseDragged(MouseEvent e) {
+      if (isPaused)
+         pauseOverlay.mouseDragged(e);
+   }
+
    public void keyPressed(KeyEvent e) {
       switch (e.getKeyCode()) {
 
