@@ -14,6 +14,7 @@ public class Game implements Runnable {
    private Playing playing;
    private Menu menu;
 
+
    private final int FPS_SET = 120;
    private final int UPS_SET = 200;
 
@@ -41,6 +42,7 @@ public class Game implements Runnable {
       menu = new Menu(this);
       playing = new Playing(this);
 
+
    }
 
 
@@ -61,6 +63,7 @@ public class Game implements Runnable {
          case OPTIONS:
             playing.update();
             break;
+
          case QUIT:
          default:
             System.exit(0);
@@ -80,6 +83,7 @@ public class Game implements Runnable {
          case PLAYING:
             playing.draw(g);
             break;
+         
          default:
             break;
       }

@@ -3,6 +3,7 @@ package gamestates;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import ui.PauseOverlay;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,8 @@ public class Playing extends State implements StateMethods {
    private Player player;
    private LevelManager levelManager;
    private boolean didJump = false;
+   private boolean isPaused = false;
+   private PauseOverlay pauseOverlay;
 
    public Playing(Game game) {
       super(game);
@@ -25,6 +28,8 @@ public class Playing extends State implements StateMethods {
       levelManager = new LevelManager(game);
       player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
       player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+      pauseOverlay = new PauseOverlay(this);
+
    }
 
    public void windowFocusLost() {
@@ -36,13 +41,20 @@ public class Playing extends State implements StateMethods {
    }
 
    public void update() {
-      levelManager.update();
-      player.update();
+      if (!isPaused) {
+         levelManager.update();
+         player.update();
+      } else {
+         pauseOverlay.update();
+      }
    }
 
    public void draw(Graphics g) {
       levelManager.draw(g);
       player.render(g);
+
+      if (isPaused)
+         pauseOverlay.draw(g);
    }
 
    public void mouseClicked(MouseEvent e) {
@@ -52,14 +64,18 @@ public class Playing extends State implements StateMethods {
    }
 
    public void mouseMoved(MouseEvent e) {
-
+      if (isPaused)
+         pauseOverlay.mouseMoved(e);
    }
 
    public void mousePressed(MouseEvent e) {
-
+      if (isPaused)
+         pauseOverlay.mousePressed(e);
    }
 
    public void mouseReleased(MouseEvent e) {
+      if (isPaused)
+         pauseOverlay.mouseReleased(e);
 
    }
 
@@ -86,9 +102,17 @@ public class Playing extends State implements StateMethods {
             Gamestate.state = Gamestate.QUIT;
             break;
 
+         case KeyEvent.VK_P:
+            isPaused = !isPaused;
+            break;
+
          default:
             break;
       }
+   }
+
+   public void unpauseGame() {
+      isPaused = false;
    }
 
    public void keyReleased(KeyEvent e) {
